@@ -1,0 +1,29 @@
+{
+  "name": "novel-weaver-desktop-shell",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=22.18.0 <23"
+  },
+  "scripts": {
+    "check:public": "node scripts/verify-public-source.mjs",
+    "test:boundary": "node --test scripts/tests/*.test.mjs",
+    "core:check": "node scripts/check-private-core.mjs",
+    "dev": "node scripts/check-private-core.mjs && pnpm --filter novel-weaver-desktop tauri dev",
+    "build": "node scripts/check-private-core.mjs && pnpm --filter novel-weaver-desktop build",
+    "typecheck": "node scripts/check-private-core.mjs && pnpm --filter novel-weaver-desktop exec tsc --noEmit",
+    "test": "node --test scripts/tests/*.test.mjs",
+    "test:ui": "pnpm --filter novel-weaver-desktop test:ui",
+    "test:e2e": "pnpm --filter novel-weaver-desktop test:e2e",
+    "test:ui:static": "pnpm --filter novel-weaver-desktop test:ui:static",
+    "bundle": "node scripts/check-private-core.mjs && pnpm --filter novel-weaver-desktop tauri build"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "better-sqlite3",
+      "esbuild"
+    ]
+  },
+  "packageManager": "pnpm@10.33.2"
+}

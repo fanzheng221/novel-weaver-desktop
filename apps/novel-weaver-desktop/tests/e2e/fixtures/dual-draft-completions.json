@@ -1,0 +1,44 @@
+[
+	{
+		"contains": "E2E-DUAL-SCORE",
+		"markdown": "林舟在雾中看清了来人的脸。\n\n他按刀未动，先听风声。来人停在五步之外，腰间玉核微微发烫。\n\n夜风卷着雾水扑上灯罩，灯笼的光被洇开，照不亮对方的眼睛。",
+		"promptTokens": 120,
+		"completionTokens": 80
+	},
+	{
+		"contains": "拆章候选",
+		"markdown": "**拆章候选一（四幕各一章）**\n\n- 第一章 · 归城：主角回到示例城，亮出身世线索。\n- 第二章 · 旧档：翻出旧案档案，埋下钥匙伏笔。\n- 第三章 · 码头：码头夜雾追逐，正面遭遇。\n- 第四章 · 对峙：钟楼对峙收束第一卷。\n\n**拆章候选二（前松后紧）**\n\n- 前两章合并铺陈日常，后两章连打两个转折。\n\n取舍：候选一节奏均匀，候选二蓄力更久但爆发更猛。",
+		"promptTokens": 200,
+		"completionTokens": 180
+	},
+	{
+		"contains": "当前规则",
+		"markdown": "**冲突检查结论**\n\n1. 与硬规则「人死不能复生」一致：本规则未涉及任何复活手段。\n2. 与人物设定一致：林舟的玉核认主路径没有绕开「一核一主」。\n3. 与前文事实一致：雾夜灯塔与雾中来客两场未出现反例。\n\n检查通过，未发现冲突。",
+		"promptTokens": 220,
+		"completionTokens": 140
+	},
+	{
+		"contains": "关系变化方向",
+		"markdown": "**关系走向推演（林舟 × 苏晚，当前故事时间）**\n\n1. 信任加深：钥匙交接之后，双向信任可能升级为同盟。\n2. 信任受试：若旧案档案指向苏家，联盟将出现裂缝。\n\n触发事件建议：一次共同守夜或一次利益冲突即可定方向。",
+		"promptTokens": 200,
+		"completionTokens": 130
+	},
+	{
+		"contains": "审校条目",
+		"markdown": "**一致性解释（收件条目：码头夜雾）**\n\n- 支持质疑的证据：硬规则「人死不能复生」与「死人站了起来」直接冲突。\n- 支持通过的证据：暂无前文给出复活手段的例外设定。\n\n结论倾向：证据支持质疑；是否裁决由作者决定。",
+		"promptTokens": 240,
+		"completionTokens": 120
+	},
+	{
+		"contains": "【参考书风格分析】",
+		"markdown": "{\"traits\":[{\"dimension\":\"对话\",\"description\":\"对白简短克制，潜台词由停顿与动作节拍承载，叙述者不替人物点破情绪。\",\"sources\":[{\"label\":\"章内对白\",\"locator\":\"中段\"}]},{\"dimension\":\"悬念节奏\",\"description\":\"章末设钩：以未决问题收束本章，下一章开头不直接作答。\",\"sources\":[{\"label\":\"章末收束\",\"locator\":\"末段\"}]}],\"beats\":[{\"kind\":\"hook\",\"position\":5,\"intensity\":3,\"note\":\"开场以环境异动起势\"},{\"kind\":\"build\",\"position\":55,\"intensity\":4,\"note\":\"误会堆叠推高张力\"},{\"kind\":\"payoff\",\"position\":92,\"intensity\":5,\"note\":\"章末信息兑现收束\"}]}",
+		"promptTokens": 260,
+		"completionTokens": 150
+	},
+	{
+		"contains": "【参考书风格汇总】",
+		"markdown": "{\"traits\":[{\"dimension\":\"对话\",\"description\":\"对白简短克制，潜台词由停顿与动作节拍承载。\",\"sources\":[{\"label\":\"第1章·对话\",\"locator\":\"中段\"}]},{\"dimension\":\"悬念节奏\",\"description\":\"章末设钩，以未决问题收束，下一章开头不直接作答。\",\"sources\":[{\"label\":\"第1章·结尾\",\"locator\":\"末段\"}]}],\"pacingTemplate\":{\"genre\":\"悬疑\",\"applicable\":\"适合双章一反转的连载节奏\",\"beats\":[{\"kind\":\"hook\",\"position\":5,\"intensity\":3},{\"kind\":\"build\",\"position\":55,\"intensity\":4},{\"kind\":\"payoff\",\"position\":92,\"intensity\":5}]}}",
+		"promptTokens": 320,
+		"completionTokens": 180
+	}
+]

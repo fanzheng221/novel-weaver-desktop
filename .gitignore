@@ -1,0 +1,56 @@
+# Dependencies and generated artifacts
+node_modules/
+.pnpm-store/
+dist/
+target/
+coverage/
+*.log
+playwright-report/
+test-results/
+**/src-tauri/gen/
+**/src-tauri/resources/
+
+# Local author data, caches and credentials
+.novel/
+.novel-weaver/
+.cache/
+.zvec/
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.mobileprovision
+.DS_Store
+.trae/
+.idea/
+
+# Binary distributions belong in release assets
+*.dmg
+*.msi
+*.exe
+*.app/
+*.app.tar.gz
+
+# Internal planning notes
+/CONTEXT.md
+/findings.md
+/progress.md
+/task_plan.md
+
+# Private implementation: never publish this build input
+/packages/
+/plugins/
+/.private/
+/private/
+*.map
+*.tgz
+*.zip

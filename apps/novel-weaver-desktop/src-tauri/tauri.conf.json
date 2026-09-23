@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Novel Weaver",
+  "version": "0.1.0",
+  "identifier": "local.novelweaver.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "node scripts/prepare-bundle.mjs && npm run build",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Novel Weaver",
+        "width": 1180,
+        "height": 760,
+        "minWidth": 800,
+        "minHeight": 600,
+        "backgroundColor": "#17181a"
+      }
+    ]
+  },
+  "bundle": {
+    "active": true,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "targets": "all",
+    "resources": [
+      "resources/novel-weaver-local-core.cjs",
+      "resources/migrations/*",
+      "resources/node_modules/**/*",
+      "resources/runtime/*",
+      "resources/core-build.json"
+    ]
+  }
+}

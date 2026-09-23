@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Novel Weaver</title>
+    <link rel="icon" type="image/svg+xml" href="/app-icon.svg" />
+    <script>
+      // 首屏主题自举：在任何绘制前同步定主题，避免浅色用户看到深色闪屏。
+      var theme = "dark";
+      var stored = null;
+      try {
+        stored = localStorage.getItem("nw-theme");
+      } catch (e) {
+        stored = null;
+      }
+      if (stored === "light") theme = stored;
+      document.documentElement.dataset.theme = theme;
+    </script>
+    <style>
+      /* 内联玄窗底色：CSS 包未就绪时第一帧即有品牌观感（WF3-01） */
+      html {
+        background: #17181a;
+      }
+      html[data-theme="light"] {
+        background: #f4f2ed;
+      }
+      body {
+        margin: 0;
+      }
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        background: #17181a;
+        transition: opacity 0.24s ease-out;
+      }
+      html[data-theme="light"] #splash {
+        background: #f4f2ed;
+      }
+      #splash.nw-splash--hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .splash-inner {
+        display: grid;
+        justify-items: center;
+      }
+      .splash-mark {
+        width: 56px;
+        height: 56px;
+        border-radius: 13px;
+        background: transparent;
+        color: #17181a;
+        display: grid;
+        place-items: center;
+        font-size: 30px;
+        font-family: "Kaiti SC", "STKaiti", serif;
+        animation: splash-breathe 1.6s ease-in-out infinite;
+      }
+      .splash-eyebrow {
+        margin-top: 14px;
+        font-size: 10.5px;
+        letter-spacing: 0.16em;
+        font-weight: 600;
+        color: #a3a09a;
+      }
+      @keyframes splash-breathe {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.55;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .splash-mark {
+          animation: none;
+        }
+        #splash {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash" aria-hidden="true">
+      <div class="splash-inner">
+        <img class="splash-mark" src="/app-icon.svg" width="56" height="56" alt="" />
+        <div class="splash-eyebrow">NOVEL WEAVER</div>
+      </div>
+    </div>
+    <div id="app"></div>
+    <script type="module" src="/src/app/main.tsx"></script>
+  </body>
+</html>

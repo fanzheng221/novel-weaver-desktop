@@ -1,0 +1,3 @@
+packages:
+  - "apps/novel-weaver-desktop"
+  - "packages/novel-weaver-core"

@@ -1,0 +1,239 @@
+@import "./tokens.css";
+@import "tailwindcss/utilities";
+
+/*
+ * 裸按钮重置（WF3-07）：`all: unset` 会重置 button 的 UA 默认样式（border 2px outset、
+ * buttonface 底色、系统字体、1px6px 内边距）。为何放 base 层而非 utilities 工具类：
+ * Tailwind 会把 `[all:unset]` 原子按默认规则排在 grid/flex/px 等布局类之后，
+ * 层叠时它先一步覆盖掉 display/padding，导致布局失效。放在 base 层（层级低于
+ * utilities），任何 tools 类都能覆盖它——`.ui-plain grid` 里 grid 生效。
+ * 等价替代原来的内联 `all: "unset"`（inline 样式靠声名顺序取胜，类靠层级取胜）。
+ */
+@layer base {
+	.ui-plain {
+		all: unset;
+	}
+}
+
+/*
+ * Tailwind v4 工具层（WF3-07）。约定基线：
+ * 1. 只引入 utilities，不引入 theme/preflight——不带入任何第三方色板、字号与
+ *    reset（preflight 会改变未显式样式的 UA 默认值，违背「视觉零回归」前提）。
+ * 2. 下方 @theme 全部 inline：utility 内直接展开为 var(--token) 引用，
+ *    tokens.css 保持唯一色源，data-theme 切换照常生效；@theme 不再生成
+ *    --color-* 等自定义属性，也就不会与现有 token 名冲突。
+ * 3. 白名单制：utility 词汇表完全由本块定义——写死 teal/sky/red-500 等
+ *    外来类名编译不出样式，天然被构建结果暴露。
+ * 4. 词汇表唯一依据 = design-system/novel-weaver/MASTER.md：
+ *    色 → MASTER §1；字级别名 body/title/prose → §2；
+ *    radius sm/md/lg 与 MASTER §3 同值镜像（4/8/12px，迁移期不得单边修改）；
+ *    ease-out/ease-in-out 用字面量镜像 §3 缓动（不可用 var(--同名词) 自引用）；
+ *    窗口阴影走独立键 shadow-nw 引用 tokens 的 --shadow-window（暗浅两主题）。
+ *    spacing 用 Tailwind 默认 4px 基数：MASTER 阶梯映射 p-1..p-12 子集
+ *    {1,2,3,4,6,8,12} ↔ {sp-1..7}；历史遗留非阶梯值以 bracket 保真。
+ * 5. 动效分工不变（WF3-06）：瞬时反馈一律 .t-fast／编排走 src/shared/ui/motion.ts；
+ *    duration-<n> 仅允许 MASTER 时长档（150/200/300）。
+ */
+@theme inline {
+	--spacing: 0.25rem;
+
+	--color-shell: var(--shell-bg);
+	--color-rail: var(--rail-bg);
+	--color-rail-active: var(--rail-active);
+	--color-panel: var(--panel-bg);
+	--color-paper: var(--paper-bg);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
+	--color-ink-hi: var(--ink-hi);
+	--color-ink-mid: var(--ink-mid);
+	--color-ink-low: var(--ink-low);
+	--color-accent: var(--accent);
+	--color-accent-text: var(--accent-text);
+	--color-accent-contrast: var(--accent-contrast);
+	--color-accent-soft: var(--accent-soft);
+	--color-success: var(--success);
+	--color-warning: var(--warning);
+	--color-danger: var(--danger);
+	--color-info: var(--info);
+	--color-blocking: var(--blocking);
+	--color-ok: var(--ok);
+	--color-prose-ink: var(--prose-ink);
+	--color-paper-line: var(--paper-line);
+	/* 唯一例外白名单：徽章白字（SevBadge/blocking，现存写死 #fff 保真迁移） */
+	--color-white: #fff;
+
+	--font-ui: var(--font-sans);
+	--font-wenkai: var(--font-prose);
+
+	--text-body: var(--fs-body);
+	--text-title: var(--fs-title);
+	--text-prose: var(--fs-prose);
+
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+
+	/* 缓动：@theme inline 会把静态值输出到 :root，故不能写 `var(--ease-out)` 自引用
+	   （会遮蔽 tokens.css 同名变量、浅色主题断路）。这里用字面量镜像 MASTER §3 缓动，
+	   与 tokens.css 同值；变更须同步（同 radius 镜像纪律）。 */
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+	/* 窗口阴影：tokens 有暗/浅两主题值，故用独立键名 --shadow-nw 引用 var(--shadow-window)，
+	   避免与主题自定义属性同名自引用；utility 为 shadow-nw。 */
+	--shadow-nw: var(--shadow-window);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--shell-bg);
+	color: var(--ink-hi);
+	font-family: var(--font-sans);
+	font-size: var(--fs-body);
+	-webkit-font-smoothing: antialiased;
+}
+
+/* 键盘焦点环（WF3-10 / MASTER §6）：仅 :focus-visible（键盘寻焦）出现，鼠标点击不显环。
+   必须用 !important 压过内联样式——24 处 all:"unset" 按钮与输入框的 inline outline:none
+   在层叠上高于任何普通外部规则，去掉 important 等于焦点环修复失效。 */
+:focus-visible {
+	/* biome-ignore lint/complexity/noImportantStyles: 唯一能压过内联 all:"unset" 的方式（WF3-10） */
+	outline: 2px solid var(--accent-text) !important;
+	outline-offset: 2px;
+	border-radius: inherit;
+}
+
+/* 小控件的透明命中区扩展：视觉不变、可点面积外扩 5px（紧凑区达标用，见 MASTER §6）。 */
+.hitpad {
+	position: relative;
+}
+
+.hitpad::after {
+	content: "";
+	position: absolute;
+	inset: -5px;
+}
+
+/* reduced-motion 全局闸门（WF3-10）：所有动画直达终态、过渡即时完成。
+   WF3-06 新增动效自动被此规则覆盖，无需逐处包裹 media query。
+   组件大量使用内联 transition，故同样需要 important 才能在层叠中胜出。 */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		/* biome-ignore lint/complexity/noImportantStyles: 压过内联 animation/transition 样式 */
+		animation-duration: 0.01ms !important;
+		/* biome-ignore lint/complexity/noImportantStyles: 同上 */
+		animation-iteration-count: 1 !important;
+		/* biome-ignore lint/complexity/noImportantStyles: 压过内联 transition 样式 */
+		transition-duration: 0.01ms !important;
+		/* biome-ignore lint/complexity/noImportantStyles: 压过组件内联 scroll-behavior */
+		scroll-behavior: auto !important;
+	}
+}
+
+/* 排版尺度：眉题宽字距、卡题 600、数字一律表格数字 */
+.eyebrow {
+	font-size: var(--fs-eyebrow);
+	letter-spacing: 0.16em;
+	color: var(--ink-low);
+	font-weight: 600;
+}
+
+.num {
+	font-variant-numeric: tabular-nums;
+}
+
+/* 动效微反馈（WF3-06③）：瞬时反馈走 token 化 CSS 过渡；编排类动效走 src/shared/ui/motion.ts
+   引入的 motion 库。t-fast 过渡变换的是颜色/阴影类属性，位移抬升只走 transform——遵守
+   MASTER「只动画 transform/opacity」铁律。reduced-motion 闸门自动让以上全部即时完成。 */
+.t-fast {
+	transition:
+		color var(--dur-fast) var(--ease-out),
+		background-color var(--dur-fast) var(--ease-out),
+		border-color var(--dur-fast) var(--ease-out),
+		box-shadow var(--dur-fast) var(--ease-out),
+		transform var(--dur-fast) var(--ease-out);
+}
+
+/* 卡片边框悬停增强：位移类抬升由 motion 的 whileHover 承担（避免内联 transform
+   与样式表互相覆盖），CSS 只负责颜色类过渡。!important 为压过组件内联 border
+   简写。 */
+.lift-bordered:hover {
+	/* biome-ignore lint/complexity/noImportantStyles: 压过内联 border 简写（WF3-06③） */
+	border-color: var(--line-strong) !important;
+}
+
+/* 纸感写作面（WF-003 决议：文楷 / 行距 2 / 缩进 2em / 两端对齐） */
+.paper {
+	background: var(--paper-bg);
+}
+
+.prose {
+	font-family: var(--font-prose);
+	font-size: var(--fs-prose);
+	line-height: var(--lh-prose);
+	color: var(--prose-ink);
+	text-align: justify;
+}
+
+.prose p {
+	text-indent: 2em;
+	margin: 0 0 2px;
+}
+
+/* 顶栏生成状态灯：运行中呼吸（WF2-01） */
+@keyframes nw-breathe {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.3;
+	}
+}
+
+.lamp-breathe {
+	animation: nw-breathe 1.6s ease-in-out infinite;
+}
+
+/* 骨架屏（WF3-01）：transform 扫光，不动画宽高；reduced-motion 呈静态占位块 */
+.sk {
+	position: relative;
+	overflow: hidden;
+	background: var(--line);
+	border-radius: 4px;
+	opacity: 0.55;
+}
+
+.sk::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	transform: translateX(-100%);
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(255, 255, 255, 0.08),
+		transparent
+	);
+	animation: nw-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes nw-shimmer {
+	to {
+		transform: translateX(100%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.sk::after {
+		content: none;
+	}
+}

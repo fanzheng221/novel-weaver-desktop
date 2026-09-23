@@ -1,0 +1,88 @@
+/*
+ * 设计 token —— WF-003 决议「玄窗」：深色默认 + 浅色伴生。
+ * 组件只允许引用这里的语义变量，禁止写死色值（防观感漂移）。
+ */
+:root,
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--shell-bg: #17181a;
+	--rail-bg: #1d2023;
+	/* 导航选中态中性底：与 rail 同族略亮，不与琥珀强调抢戏（WF3-12） */
+	--rail-active: #26292e;
+	--line: #2b2e33;
+	/* 交互控件描边（输入框/按钮边界）：实测 ≥3:1 于两主题最暗底 */
+	--line-strong: #666a72;
+	--ink-hi: #e8e5de;
+	--ink-mid: #a3a09a;
+	--ink-low: #898680;
+	--accent: #d08a2e;
+	--accent-text: var(--accent);
+	--accent-contrast: #17181a;
+	--accent-soft: rgba(208, 138, 46, 0.13);
+	--paper-bg: #211e19;
+	--paper-line: #38332a;
+	--prose-ink: #e6dfd0;
+	--panel-bg: #1d2023;
+	/* 语义色：以文本用法达 4.5:1、图形用法达 3:1 校准（MASTER.md 审计表） */
+	--success: #7fa88c;
+	--warning: #d4ab60;
+	--danger: #cf7a62;
+	--info: #8aa3c4;
+	/* 徽章/状态点填充专用深红：白字 7.6:1；正文红色请用 --danger */
+	--blocking: #8c3a2b;
+	--ok: var(--success);
+	--shadow-window: 0 24px 48px -24px rgba(0, 0, 0, 0.55);
+
+	--font-sans: "PingFang SC", "Helvetica Neue", sans-serif;
+	--font-prose: "LXGW WenKai", "Kaiti SC", "STKaiti", serif;
+
+	--fs-eyebrow: 10.5px;
+	--fs-body: 13px;
+	--fs-title: 20px;
+	--fs-prose: 16.5px;
+	--lh-prose: 2;
+
+	--sp-1: 4px;
+	--sp-2: 8px;
+	--sp-3: 12px;
+	--sp-4: 16px;
+	--sp-5: 24px;
+	--sp-6: 32px;
+	--sp-7: 48px;
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+	--dur-fast: 150ms;
+	--dur-base: 200ms;
+	--dur-slow: 300ms;
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root[data-theme="light"] {
+	color-scheme: light;
+	--shell-bg: #f4f2ed;
+	--rail-bg: #ece9e2;
+	--rail-active: #e2ded4;
+	--line: #ddd8cd;
+	--line-strong: #8b8477;
+	--ink-hi: #1c1917;
+	--ink-mid: #57534e;
+	--ink-low: #6c6865;
+	--accent: #a3661d;
+	/* accent 作为小号彩色文本时用加深变体（panel 实测 4.5:1）；图形仍用 --accent */
+	--accent-text: #965b18;
+	--accent-contrast: #ffffff;
+	--accent-soft: rgba(163, 102, 29, 0.12);
+	--paper-bg: #fbf8f1;
+	--paper-line: #e4ddcd;
+	--prose-ink: #292524;
+	--panel-bg: #faf8f3;
+	--success: #40634c;
+	--warning: #85630f;
+	--danger: #8c3a2b;
+	--info: #47617f;
+	--blocking: #8c3a2b;
+	--ok: var(--success);
+	--shadow-window: 0 24px 48px -24px rgba(64, 56, 44, 0.28);
+}
