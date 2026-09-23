@@ -67,4 +67,10 @@ node scripts/export-public-source.mjs /absolute/path/to/new-public-export
 
 原有自动 Release 工作流不随此公开副本发布。维护者可以本机构建，或另行配置受控的私有构建环境；源码上传与 Release 发布仍需要维护者明确执行。
 
-项目尚未选定 LICENSE，本次整理不替作者决定桌面外层或私有核心的授权条款。macOS 与 Windows 安装包需要分别验收。
+macOS 与 Windows 安装包需要分别验收。
+
+## 许可证
+
+本仓库的原创桌面外层采用 [Apache License 2.0](LICENSE)，允许按该许可证使用、修改和分发，包括商业使用。适用范围及第三方组件说明见 [LICENSING.md](LICENSING.md)。
+
+该授权不覆盖私有 `novel-weaver-core` 的实现。核心由哈迪工作室按 [CORE-LICENSE.txt](CORE-LICENSE.txt) 授权个人和企业免费使用，并允许免费转发完整、未修改的官方安装包；不授予核心独立再分发或转售权。第三方组件保留各自许可，正式安装包应包含全部适用许可材料。

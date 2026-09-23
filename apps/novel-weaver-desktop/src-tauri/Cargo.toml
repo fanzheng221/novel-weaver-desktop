@@ -3,6 +3,7 @@ name = "novel-weaver-desktop"
 version = "0.1.0"
 description = "A local visual workbench for Novel Weaver"
 edition = "2021"
+license = "Apache-2.0"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
