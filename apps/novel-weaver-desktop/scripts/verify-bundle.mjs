@@ -18,6 +18,18 @@ try {
   const builtCore = JSON.parse(readFileSync(join(sandbox, "core-build.json"), "utf8"));
   assert.equal(builtCore.sourceSha256, expectedCore.sourceSha256, "Wrong private core revision in bundle");
   assert.equal(builtCore.bundleSha256, createHash("sha256").update(readFileSync(join(sandbox, "novel-weaver-local-core.cjs"))).digest("hex"), "Core bundle checksum mismatch");
+  for (const file of ["LICENSE", "CORE-LICENSE.txt", "LICENSING.md", "THIRD-PARTY-NOTICES.txt", "license-manifest.json", "licenses.zip"]) {
+    assert.equal(existsSync(join(sandbox, file)), true, `Missing bundled license material: ${file}`);
+  }
+  const licenseManifest = JSON.parse(readFileSync(join(sandbox, "license-manifest.json"), "utf8"));
+  assert.ok(licenseManifest.records.length > 0, "Missing component license inventory");
+  for (const component of licenseManifest.records) {
+    for (const file of component.files) {
+      assert.match(file.file, /^licenses\//);
+      assert.equal(file.file.split("/").includes(".."), false);
+      assert.equal(createHash("sha256").update(readFileSync(join(sandbox, file.file))).digest("hex"), file.sha256, `Wrong license text for ${component.id}`);
+    }
+  }
   const node = join(sandbox, "runtime", process.platform === "win32" ? "node.exe" : "node");
   const request = (method, params) => {
     const output = execFileSync(node, [join(sandbox, "novel-weaver-local-core.cjs")], {

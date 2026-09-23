@@ -3,6 +3,7 @@
 import { build } from "esbuild";
 import { createHash } from "node:crypto";
 import { checkPrivateCore } from "../../../scripts/private-core.mjs";
+import { collectLicenses } from "../../../scripts/collect-licenses.mjs";
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync, realpathSync, rmSync, lstatSync } from "node:fs";
 import { createRequire } from "node:module";
 import { basename, dirname, join, resolve } from "node:path";
@@ -133,3 +134,4 @@ writeFileSync(join(resourcesDir, "core-build.json"), JSON.stringify({
 }, null, 2) + "\n");
 
 console.log(`resources 就绪：${resourcesDir}`);
+collectLicenses(resolve(import.meta.dirname, "../../.."));

@@ -111,11 +111,14 @@ export function buildLocalRelease(root) {
   if (pnpm !== "10.33.2" || !rust.startsWith("rustc 1.93.1 ")) throw new Error("Use pnpm 10.33.2 and Rust 1.93.1 for this release workflow.");
   const bundle = join(root, APP, "src-tauri/target/release/bundle");
   if (existsSync(bundle) || existsSync(join(root, BUILD))) throw new Error("Build outputs already exist; prepare a new directory to avoid collecting stale installers.");
-  const run = (command, args) => execFileSync(command, args, { cwd: root, stdio: "inherit" });
+  const previewEnvironment = { ...process.env };
+  for (const name of Object.keys(previewEnvironment)) if (name.startsWith("APPLE_")) delete previewEnvironment[name];
+  previewEnvironment.APPLE_SIGNING_IDENTITY = "-";
+  const run = (command, args) => execFileSync(command, args, { cwd: root, stdio: "inherit", env: previewEnvironment });
   run("pnpm", ["install", "--frozen-lockfile"]);
   run("pnpm", ["test"]);
   run("pnpm", ["--filter", "novel-weaver-desktop", "test:ui:static"]);
-  run("pnpm", ["--filter", "novel-weaver-desktop", "tauri", "build", "--bundles", "dmg"]);
+  run("pnpm", ["--filter", "novel-weaver-desktop", "tauri", "build", "--bundles", "dmg", "--config", "src-tauri/tauri.preview.conf.json"]);
   const resources = join(bundle, "macos/Novel Weaver.app/Contents/Resources/resources");
   run(process.execPath, [join(APP, "scripts/verify-bundle.mjs"), resources]);
   fixedInputs(root);
@@ -126,7 +129,7 @@ export function buildLocalRelease(root) {
   const receipt = {
     schemaVersion: 1, tag: record.tag, publicSourceSha256: record.publicSourceSha256,
     installer: relative(root, installer).split(sep).join("/"), installerSha256: sha256(installer),
-    tools: { node: process.version, pnpm, rust }, bundleRuntimeVerified: true,
+    tools: { node: process.version, pnpm, rust }, bundleRuntimeVerified: true, signingMode: "ad-hoc-preview",
   };
   save(join(root, BUILD), receipt);
   return receipt;

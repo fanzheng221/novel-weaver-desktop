@@ -1,0 +1,26 @@
+Eigen source availability notice (MPL-2.0)
+
+The zvec native dependency includes Eigen 3.4.0 as vendored by RaBitQ-Library.
+The applicable license is Mozilla Public License 2.0, included separately.
+The corresponding preferred form for modification is publicly available at:
+
+https://github.com/VectorDB-NTU/RaBitQ-Library/tree/858b0d6c480766d0e4f08fc5e02f34b53d698fad/include/rabitqlib/third/Eigen
+
+Download the exact source archive (then use include/rabitqlib/third/Eigen):
+https://github.com/VectorDB-NTU/RaBitQ-Library/archive/858b0d6c480766d0e4f08fc5e02f34b53d698fad.tar.gz
+
+Version evidence:
+include/rabitqlib/third/Eigen/src/Core/util/Macros.h defines 3.4.0.
+This source is the exact RaBitQ vendored revision, not a substitute pristine
+Eigen release. The Novel Weaver project has made no changes to these files.
+The checked zvec CMake integration exposes that directory as a header-only
+include dependency and does not apply an Eigen patch.
+
+Dependency chain:
+@zvec/bindings-darwin-arm64 0.6.0
+node binding commit 96fe5e09619369179d783d1c517cac33895c2b81
+alibaba/zvec commit cb422972981a2ed4735e9cfb419397c0a2383f02
+RaBitQ-Library commit 858b0d6c480766d0e4f08fc5e02f34b53d698fad
+
+The separate Novel Weaver core license does not limit recipients' rights to
+this third-party MPL-covered source. Keep its original copyright notices.

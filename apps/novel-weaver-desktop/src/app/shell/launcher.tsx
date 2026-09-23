@@ -1,6 +1,7 @@
 import { open } from "@tauri-apps/plugin-dialog";
 import { BookOpen, FolderOpen, Plus, Search } from "lucide-react";
 import { AppMark } from "../../shared/ui/icons";
+import { LicenseButton } from "../../shared/ui/LicenseButton";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { authorErrorMessage, defaultProjectPath, queryProject } from "../../shared/api/rpc";
@@ -488,6 +489,7 @@ export function Launcher({
 					<Button variant="primary" onClick={() => void createNew()}>
 						<Plus size={16} aria-hidden="true" /> {LAUNCHER.newAction}
 					</Button>
+					<LicenseButton />
 				</header>
 
 				<SemanticExtensionPanel firstRun />

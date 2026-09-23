@@ -1,5 +1,6 @@
 import { Search, Sparkles } from "lucide-react";
 import { IconButton } from "../../shared/ui/icons";
+import { LicenseButton } from "../../shared/ui/LicenseButton";
 import { cx } from "../../shared/ui/cx";
 import { type GenerationPhase, useWorkspace } from "../../shared/workspace/context";
 
@@ -114,6 +115,7 @@ export function TopBar({
 					</button>
 				) : null}
 				<IconButton onClick={onOpenPalette} icon={Search} label="⌘K 命令" title="打开命令面板（⌘K）" aria-haspopup="dialog" />
+				<LicenseButton />
 			</span>
 		</header>
 	);

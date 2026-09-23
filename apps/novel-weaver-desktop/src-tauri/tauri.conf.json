@@ -36,7 +36,14 @@
       "resources/migrations/*",
       "resources/node_modules/**/*",
       "resources/runtime/*",
-      "resources/core-build.json"
+      "resources/core-build.json",
+      "resources/LICENSE",
+      "resources/CORE-LICENSE.txt",
+      "resources/LICENSING.md",
+      "resources/THIRD-PARTY-NOTICES.txt",
+      "resources/license-manifest.json",
+      "resources/licenses/**/*",
+      "resources/licenses.zip"
     ]
   }
 }

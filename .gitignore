@@ -9,6 +9,7 @@ playwright-report/
 test-results/
 **/src-tauri/gen/
 **/src-tauri/resources/
+/apps/novel-weaver-desktop/public/legal/
 
 # Local author data, caches and credentials
 .novel/
