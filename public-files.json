@@ -213,6 +213,7 @@
     "apps/novel-weaver-desktop/ui-fixtures/workspace-tabs.html",
     "apps/novel-weaver-desktop/ui-fixtures/world-model.html",
     "apps/novel-weaver-desktop/vite.config.ts",
+    "docs/local-releases.md",
     "package.json",
     "pnpm-lock.yaml",
     "pnpm-workspace.yaml",
@@ -221,8 +222,10 @@
     "scripts/attach-private-core.mjs",
     "scripts/check-private-core.mjs",
     "scripts/export-public-source.mjs",
+    "scripts/local-release.mjs",
     "scripts/private-core.mjs",
     "scripts/public-source.mjs",
+    "scripts/tests/local-release.test.mjs",
     "scripts/tests/public-boundary.test.mjs",
     "scripts/verify-public-source.mjs"
   ]

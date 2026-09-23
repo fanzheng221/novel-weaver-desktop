@@ -67,6 +67,8 @@ node scripts/export-public-source.mjs /absolute/path/to/new-public-export
 
 原有自动 Release 工作流不随此公开副本发布。维护者可以本机构建，或另行配置受控的私有构建环境；源码上传与 Release 发布仍需要维护者明确执行。
 
+当前选用本机构建方案，core 不上传到任何 GitHub 仓库。固定版本准备、产物收集和上传前检查见 [本地发布说明](docs/local-releases.md)。这些脚本不会自动上传或发布安装包。
+
 macOS 与 Windows 安装包需要分别验收。
 
 ## 许可证
