@@ -87,7 +87,9 @@ function findPkgRoot(dir) {
 for (const name of ["better-sqlite3", "@zvec/zvec"]) {
   try {
     const vendor = vendorNodeModulesOf(name);
-    cpSync(vendor, join(resourcesDir, "node_modules"), { recursive: true, dereference: true });
+    cpSync(vendor, join(resourcesDir, "node_modules"), { recursive: true, dereference: true,
+      filter: (path) => !path.includes("/better-sqlite3/prebuilds/") || !path.endsWith(".node") || basename(path) === `${process.platform}-${process.arch}.node`,
+    });
   } catch (error) {
     if (name === "better-sqlite3") throw error;
     console.log(`${name} 复制失败（可选依赖可忽略）：${error.message}`);
@@ -117,6 +119,23 @@ function materializeSymlinks(root) {
   }
 }
 materializeSymlinks(join(resourcesDir, "node_modules"));
+
+// The preview runtime must have its own valid signature; Tauri only signs the app executable.
+if (process.platform === "darwin" && process.env.APPLE_SIGNING_IDENTITY === "-") {
+  const sign = (path) => {
+    execFileSync("/usr/bin/codesign", ["--force", "--sign", "-", "--timestamp=none", path], { stdio: "inherit" });
+    execFileSync("/usr/bin/codesign", ["--verify", "--strict", path], { stdio: "inherit" });
+  };
+  sign(bundledNode);
+  function signNativeModules(directory) {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) signNativeModules(path);
+      else if (entry.isFile() && entry.name.endsWith(".node")) sign(path);
+    }
+  }
+  signNativeModules(join(resourcesDir, "node_modules"));
+}
 
 // Verify the packaged runtime + mandatory native dependency without the user's PATH.
 execFileSync(bundledNode, ["-e", "const Database = require('better-sqlite3'); const db = new Database(':memory:'); db.exec('SELECT 1'); db.close();"], {

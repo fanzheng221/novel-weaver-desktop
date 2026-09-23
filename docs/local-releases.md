@@ -27,7 +27,7 @@ pnpm release:build
 
 当前固定工具为官方独立 Node 22.20.0、pnpm 10.33.2、Rust 1.93.1。脚本依次冻结锁文件安装依赖、运行脚本测试及 UI 静态检查、构建 DMG，并从生成的 `.app` 中验证核心资源的隔离运行。
 
-当前入口生成 ad-hoc 签名预览包：应用 tauri.preview.conf.json，并清除子进程环境中的 APPLE_* 配置，再显式设定 APPLE_SIGNING_IDENTITY=-。它不使用 Developer ID，也不提交 Apple 公证。预览包不承诺免除 macOS 下载安全提示；签名应以最终产物的 codesign 验证结果为准。正式签名公证须另行实现并验收。
+当前入口生成 ad-hoc 签名预览包：应用 tauri.preview.conf.json，并清除子进程环境中的 APPLE_* 配置，再显式设定 APPLE_SIGNING_IDENTITY=-。随包 Node 与当前架构的原生模块先单独签名和验证，再由 Tauri 签名整个应用。它不使用 Developer ID，也不提交 Apple 公证。预览包不承诺免除 macOS 下载安全提示；签名应以最终产物的 codesign 验证结果为准。正式签名公证须另行实现并验收。
 
 构建会收集实际安装的 npm 运行时依赖、Cargo 目标依赖的保守超集、Node/Rust 运行时与原生库、字体声明。上游未附完整许可的部分通过版本固定且带校验和的 scripts/license-overrides.json 补充。MPL Rust 组件的原始 .crate 随包提供，原生组件源码获取说明见声明文件。材料生成失败时构建停止。
 

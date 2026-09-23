@@ -118,7 +118,7 @@ export function buildLocalRelease(root) {
   run("pnpm", ["install", "--frozen-lockfile"]);
   run("pnpm", ["test"]);
   run("pnpm", ["--filter", "novel-weaver-desktop", "test:ui:static"]);
-  run("pnpm", ["--filter", "novel-weaver-desktop", "tauri", "build", "--bundles", "dmg", "--config", "src-tauri/tauri.preview.conf.json"]);
+  run("pnpm", ["--filter", "novel-weaver-desktop", "tauri", "build", "--bundles", "app,dmg", "--config", "src-tauri/tauri.preview.conf.json"]);
   const resources = join(bundle, "macos/Novel Weaver.app/Contents/Resources/resources");
   run(process.execPath, [join(APP, "scripts/verify-bundle.mjs"), resources]);
   fixedInputs(root);
