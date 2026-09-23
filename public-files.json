@@ -158,6 +158,7 @@
     "apps/novel-weaver-desktop/src/test-fixtures/workspace-actions.tsx",
     "apps/novel-weaver-desktop/src/test-fixtures/workspace-tabs.tsx",
     "apps/novel-weaver-desktop/src/test-fixtures/world-model.tsx",
+    "apps/novel-weaver-desktop/src/vite-env.d.ts",
     "apps/novel-weaver-desktop/tests/e2e/author-feedback-planning.spec.ts",
     "apps/novel-weaver-desktop/tests/e2e/author-feedback-regression.spec.ts",
     "apps/novel-weaver-desktop/tests/e2e/capability-rediscovery-p0.spec.ts",
